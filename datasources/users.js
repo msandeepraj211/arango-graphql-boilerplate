@@ -27,6 +27,15 @@ class UserDataSource extends ArangoDataSource {
 		const users = await this.query({ query, bindVars: { '@collection': this.collection, userId } });
 		return users[0];
 	}
+
+	async addUser(userData) {
+		const query = `
+			INSERT @userData in @@collection
+			return NEW
+    `;
+		const users = await this.query({ query, bindVars: { '@collection': this.collection, userData } });
+		return users[0];
+	}
 }
 
 module.exports = UserDataSource;

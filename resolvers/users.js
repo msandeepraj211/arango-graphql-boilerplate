@@ -15,7 +15,15 @@ const rootQueryResolver = {
 	},
 };
 
+const mutationResolver = {
+	user: async (_, { username }, { dataSources }) => {
+		const user = await dataSources.Users.addUser({ username });
+		return user;
+	},
+};
+
 module.exports = {
 	rootQueryResolver,
 	otherResolvers,
+	mutationResolver,
 };
