@@ -1,0 +1,30 @@
+{
+	"name": "server",
+	"version": "1.0.0",
+	"description": "Boilerplate application for ArangoDB ",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "node index.js",
+		"prepare": "husky install"
+	},
+	"author": "Sandeep Raj",
+	"license": "ISC",
+	"dependencies": {
+		"@graphql-tools/schema": "^7.1.5",
+		"@msandeepraj211/arango-datasource": "git+https://github.com/msandeepraj211/arango-datasouce.git",
+		"apollo-server-cache-redis": "^3.0.0",
+		"apollo-server-express": "^2.25.2",
+		"arangojs": "^6.11.1",
+		"body-parser": "^1.19.0",
+		"cors": "^2.8.5",
+		"dotenv": "^8.6.0",
+		"eslint": "^7.30.0",
+		"express": "^4.17.1",
+		"graphql": "^14.5.8",
+		"ioredis": "^4.27.6"
+	},
+	"devDependencies": {
+		"husky": "^7.0.1"
+	}
+}
