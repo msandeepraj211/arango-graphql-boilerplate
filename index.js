@@ -3,16 +3,26 @@ const http = require('http');
 const Redis = require('ioredis');
 const cors = require('cors');
 const express = require('express');
+const jwt = require('jsonwebtoken');
 
-const { ApolloServer } = require('apollo-server-express');
+const { ApolloServer, AuthenticationError } = require('apollo-server-express');
 const { BaseRedisCache } = require('apollo-server-cache-redis');
+const { makeExecutableSchema } = require('@graphql-tools/schema');
 
 const UsersDataSource = require('./datasources/users');
 const createDB = require('./arangodb/db');
-const { makeExecutableSchema } = require('@graphql-tools/schema');
-
 const typeDefs = require('./schemas');
 const resolvers = require('./resolvers');
+
+function authenticate(token = '') {
+	let user;
+	try {
+		user = jwt.verify(token, process.env.JWT_SECRET);
+	} catch (error) {
+		throw new AuthenticationError('User needs to be authenticated');
+	}
+	return user;
+}
 
 async function start() {
 	const app = express();
@@ -47,6 +57,15 @@ async function start() {
 			return {
 				Users: new UsersDataSource(db, 'users'),
 			};
+		},
+		context: ({ req, res }) => {
+			let context = {};
+			if (process.env.USE_AUTH === 'true') {
+				const token = req.headers.authorization || '';
+				context.user = authenticate(token.replace('Bearer ', ''));
+			}
+
+			return context;
 		},
 	});
 
