@@ -1,4 +1,4 @@
-# Boilerplate Applicatioon using following technologies
+# Boilerplate Application using following technologies
 
 - ARANGO - Databse
 - EXPRESS - Application Layer
