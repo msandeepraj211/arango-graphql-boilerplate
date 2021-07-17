@@ -14,12 +14,24 @@ const createDB = require('./arangodb/db');
 const typeDefs = require('./schemas');
 const resolvers = require('./resolvers');
 const logger = require('./logger');
-const { response } = require('express');
+const { publish } = require('./events');
 
+// `_G_` is custom pattern is used to signify that it is a global variable and should not be modified.
+// Comment the below lines if you want to avoid global logger.
 // Attach logger to global variable so it can be used accross the code.
-// `_G_` is custom pattern is used to signify that its a global variable and should enot be modified.
-// Comment the below line if you want to avoid global logger.
 global._G_logger = logger;
+// Attach event publisher to global variable so it can be used accross the code.
+if (process.env.USE_EVENTS === 'true') {
+	global._G_publish = publish;
+} else {
+	// Attach a mock publisher when events emitting is disabled. This can be used for local development.
+	global._G_publish = (namespace, data) => {
+		logger.debug('Tried to publish an event when events are disabled. ', {
+			namespace,
+			data,
+		});
+	};
+}
 
 function authenticate(token = '') {
 	let user;

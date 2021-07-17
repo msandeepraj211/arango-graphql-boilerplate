@@ -15,7 +15,10 @@ class UserDataSource extends ArangoDataSource {
       FOR user in @@collection
       return user
     `;
-		return await this.query({ query, bindVars: { '@collection': this.collection } });
+		return await this.query({
+			query,
+			bindVars: { '@collection': this.collection },
+		});
 	}
 
 	async userById(userId) {
@@ -24,7 +27,10 @@ class UserDataSource extends ArangoDataSource {
 				FILTER user._key == @userId
 			return user
     `;
-		const users = await this.query({ query, bindVars: { '@collection': this.collection, userId } });
+		const users = await this.query({
+			query,
+			bindVars: { '@collection': this.collection, userId },
+		});
 		return users[0];
 	}
 
@@ -33,7 +39,11 @@ class UserDataSource extends ArangoDataSource {
 			INSERT @userData in @@collection
 			return NEW
     `;
-		const users = await this.query({ query, bindVars: { '@collection': this.collection, userData } });
+		const users = await this.query({
+			query,
+			bindVars: { '@collection': this.collection, userData },
+		});
+		_G_publish('users', { action: 'INSERT', username: users[0]?.username });
 		return users[0];
 	}
 }

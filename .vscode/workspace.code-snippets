@@ -19,7 +19,14 @@
 	"Print to bunyan console": {
 		"scope": "javascript,typescript",
 		"prefix": "gl",
-		"body": ["_G_logger.info('$1', $1);"],
+		"body": ["_G_logger.${1:info}('$2', $2);"],
 		"description": "Log output to console using bunyan logger exposed globally"
+	},
+
+	"Publish an Event": {
+		"scope": "javascript,typescript",
+		"prefix": "pb",
+		"body": ["_G_publish('$1', $2);"],
+		"description": "Publish an event globally."
 	}
 }

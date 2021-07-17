@@ -11,6 +11,7 @@
 	"author": "Sandeep Raj",
 	"license": "ISC",
 	"dependencies": {
+		"@google-cloud/pubsub": "^2.16.0",
 		"@graphql-tools/schema": "^7.1.5",
 		"@msandeepraj211/arango-datasource": "git+https://github.com/msandeepraj211/arango-datasouce.git",
 		"apollo-server-cache-redis": "^3.0.0",
