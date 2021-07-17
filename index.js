@@ -26,10 +26,13 @@ if (process.env.USE_EVENTS === 'true') {
 } else {
 	// Attach a mock publisher when events emitting is disabled. This can be used for local development.
 	global._G_publish = (namespace, data) => {
-		logger.debug('Tried to publish an event when events are disabled. ', {
-			namespace,
-			data,
-		});
+		logger.debug(
+			{
+				namespace,
+				data,
+			},
+			'Tried to publish an event when events are disabled. '
+		);
 	};
 }
 

@@ -22,10 +22,10 @@ const toppingMapping = {
 const eventDataSanitiser = {
 	users: (eventData) => {
 		if (!eventData?.username) {
-			_G_logger.warn('username invalidate in event', eventData);
+			_G_logger.warn(eventData, 'username invalidate in event');
 		}
 		if (!eventData?.action) {
-			_G_logger.error('event action is mandatory', eventData);
+			_G_logger.error(eventData, 'event action is mandatory');
 			return;
 		}
 		return eventData;
@@ -49,10 +49,13 @@ const _publish = (topic, data, attemptNumber) => {
 		})
 		.catch((error) => {
 			if (attemptNumber === RETRY_ATTEMPTS) {
-				_G_logger.error(`Received error while publishing: ${error.message}`, {
-					data,
-					topic,
-				});
+				_G_logger.error(
+					{
+						data,
+						topic,
+					},
+					`Received error while publishing: ${error.message}`
+				);
 			} else {
 				setTimeout(() => {
 					_publish(topic, data, attemptNumber + 1);
@@ -70,10 +73,13 @@ const publish = (namespace, eventData) => {
 		}
 		_publish(toppingMapping[namespace] || namespace, eventData, 1);
 	} catch (error) {
-		_G_logger.error('Error in event publish to Google', {
-			namespace,
-			eventData,
-		});
+		_G_logger.error(
+			{
+				namespace,
+				eventData,
+			},
+			'Error in event publish to Google'
+		);
 	}
 };
 
