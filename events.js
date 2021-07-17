@@ -64,7 +64,7 @@ const _publish = (topic, data, attemptNumber) => {
 		});
 };
 
-//https://github.com/googleapis/nodejs-pubsub/blob/master/samples/publishMessage.js
+//Inspired from https://github.com/googleapis/nodejs-pubsub/blob/master/samples/publishMessage.js
 const publish = (namespace, eventData) => {
 	// Event publish to google should not throw error to GraphQL. Hence try catch.
 	try {

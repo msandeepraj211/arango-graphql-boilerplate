@@ -1,4 +1,5 @@
 const bunyan = require('bunyan');
+
 const logger = bunyan.createLogger({
 	name: 'logger',
 	serializers: bunyan.stdSerializers,

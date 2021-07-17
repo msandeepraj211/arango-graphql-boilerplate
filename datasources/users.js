@@ -1,7 +1,5 @@
 const { ArangoDataSource } = require('@msandeepraj211/arango-datasource');
 
-const { aql } = require('arangojs');
-
 class UserDataSource extends ArangoDataSource {
 	// Pass the user collection to the DataSource
 	constructor(db, collection) {
