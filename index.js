@@ -13,6 +13,8 @@ const UsersDataSource = require('./datasources/users');
 const createDB = require('./arangodb/db');
 const typeDefs = require('./schemas');
 const resolvers = require('./resolvers');
+const logger = require('./logger');
+const { response } = require('express');
 
 function authenticate(token = '') {
 	let user;
@@ -22,6 +24,15 @@ function authenticate(token = '') {
 		throw new AuthenticationError('User needs to be authenticated');
 	}
 	return user;
+}
+
+function errorFormatterAndLogger(err) {
+	// Log every error to console in json format. Used to analyse the errors later.
+	logger.error(err);
+
+	// TODO: analyse the error and send proper messages. use various error messages availabe in apollo-server-express
+
+	return err;
 }
 
 async function start() {
@@ -58,7 +69,8 @@ async function start() {
 				Users: new UsersDataSource(db, 'users'),
 			};
 		},
-		context: ({ req, res }) => {
+		formatError: errorFormatterAndLogger,
+		context: ({ req }) => {
 			let context = {};
 			if (process.env.USE_AUTH === 'true') {
 				const token = req.headers.authorization || '';
