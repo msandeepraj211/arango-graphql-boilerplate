@@ -16,6 +16,11 @@ const resolvers = require('./resolvers');
 const logger = require('./logger');
 const { response } = require('express');
 
+// Attach logger to global variable so it can be used accross the code.
+// `_G_` is custom pattern is used to signify that its a global variable and should enot be modified.
+// Comment the below line if you want to avoid global logger.
+global._G_logger = logger;
+
 function authenticate(token = '') {
 	let user;
 	try {
@@ -41,7 +46,12 @@ async function start() {
 	app.use(cors());
 
 	// Create a new arangoDB instance. This will be used to create datasources.
-	const db = createDB(process.env.DB_URL, process.env.DB_NAME, process.env.DB_USERNAME, process.env.DB_PASSWORD);
+	const db = createDB(
+		process.env.DB_URL,
+		process.env.DB_NAME,
+		process.env.DB_USERNAME,
+		process.env.DB_PASSWORD
+	);
 
 	// Combine TypeDefs and resolvers into schema.
 	const schema = makeExecutableSchema({
