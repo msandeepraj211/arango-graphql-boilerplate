@@ -28,6 +28,7 @@
 		"jsonwebtoken": "^8.5.1"
 	},
 	"devDependencies": {
+		"bunyan-debug-stream": "^2.0.0",
 		"husky": "^7.0.1"
 	}
 }
